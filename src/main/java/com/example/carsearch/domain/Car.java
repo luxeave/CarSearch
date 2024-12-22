@@ -26,5 +26,13 @@ public class Car {
     @Pattern(regexp = "^[a-zA-Z]+$", message = "Color must contain only letters")
     private String color;
 
-    // Constructor, getters, setters, equals, hashCode, and toString methods
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    // Constructor, other getters, setters, equals, hashCode, and toString methods
 }
