@@ -34,5 +34,45 @@ public class Car {
         this.id = id;
     }
 
-    // Constructor, other getters, setters, equals, hashCode, and toString methods
+    public String getModel() {
+        return model;
+    }
+
+    public void setModel(String model) {
+        this.model = model;
+    }
+
+    public Integer getLengthCm() {
+        return lengthCm;
+    }
+
+    public void setLengthCm(Integer lengthCm) {
+        this.lengthCm = lengthCm;
+    }
+
+    public Integer getWeightKg() {
+        return weightKg;
+    }
+
+    public void setWeightKg(Integer weightKg) {
+        this.weightKg = weightKg;
+    }
+
+    public Integer getMaxVelocityKmH() {
+        return maxVelocityKmH;
+    }
+
+    public void setMaxVelocityKmH(Integer maxVelocityKmH) {
+        this.maxVelocityKmH = maxVelocityKmH;
+    }
+
+    public String getColor() {
+        return color;
+    }
+
+    public void setColor(String color) {
+        this.color = color;
+    }
+
+    // Constructor, equals, hashCode, and toString methods
 }
