@@ -2,6 +2,11 @@ package com.example.carsearch.controller;
 
 import com.example.carsearch.dto.CarDTO;
 import com.example.carsearch.service.CarService;
+import com.example.carsearch.service.CarSearchService;
+import com.example.carsearch.criteria.SearchCriteria;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -9,9 +14,11 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/api/cars")
 public class CarController {
     private final CarService carService;
+    private final CarSearchService carSearchService;
 
-    public CarController(CarService carService) {
+    public CarController(CarService carService, CarSearchService carSearchService) {
         this.carService = carService;
+        this.carSearchService = carSearchService;
     }
 
     @PostMapping
@@ -25,5 +32,13 @@ public class CarController {
         return carService.findById(id)
                 .map(ResponseEntity::ok)
                 .orElse(ResponseEntity.notFound().build());
+    }
+
+    @GetMapping("/search")
+    public ResponseEntity<Page<CarDTO>> searchCars(
+            @ModelAttribute SearchCriteria criteria,
+            @PageableDefault(size = 20, sort = "id") Pageable pageable) {
+        Page<CarDTO> results = carSearchService.searchCars(criteria, pageable);
+        return ResponseEntity.ok(results);
     }
 }
