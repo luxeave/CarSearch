@@ -114,4 +114,12 @@ public class CarSearchService {
 
         return predicates;
     }
+
+    @Cacheable(value = "carSearches", key = "'weight-' + #minWeight + '-' + #maxWeight + '-' + #pageable.hashCode()")
+    public Page<CarDTO> findByWeightRange(Integer minWeight, Integer maxWeight, Pageable pageable) {
+        SearchCriteria criteria = new SearchCriteria();
+        criteria.setMinWeight(minWeight);
+        criteria.setMaxWeight(maxWeight);
+        return searchCars(criteria, pageable);
+    }
 }
