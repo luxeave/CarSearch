@@ -1,7 +1,7 @@
 package com.example.carsearch.service;
 
-import com.example.carsearch.criteria.SearchCriteria;
 import com.example.carsearch.dto.CarDTO;
+import com.example.carsearch.dto.CarSearchCriteria;
 import com.example.carsearch.entity.CarEntity;
 import com.example.carsearch.mapper.CarMapper;
 import com.example.carsearch.util.QueryUtils;
@@ -33,7 +33,7 @@ public class CarSearchService {
     }
 
     @Cacheable(value = "carSearches", key = "#criteria.hashCode() + #pageable.hashCode()")
-    public Page<CarDTO> searchCars(SearchCriteria criteria, Pageable pageable) {
+    public Page<CarDTO> searchCars(CarSearchCriteria criteria, Pageable pageable) {
         CriteriaBuilder cb = entityManager.getCriteriaBuilder();
         CriteriaQuery<CarEntity> query = cb.createQuery(CarEntity.class);
         Root<CarEntity> car = query.from(CarEntity.class);
@@ -68,7 +68,7 @@ public class CarSearchService {
                 total);
     }
 
-    private List<Predicate> buildPredicates(SearchCriteria criteria,
+    private List<Predicate> buildPredicates(CarSearchCriteria criteria,
             CriteriaBuilder cb,
             Root<CarEntity> car) {
         List<Predicate> predicates = new ArrayList<>();
@@ -82,34 +82,34 @@ public class CarSearchService {
                     "%" + criteria.getModel().toLowerCase() + "%"));
         }
 
-        if (criteria.getMinWeight() != null) {
+        if (criteria.getMinWeightKg() != null) {
             predicates.add(cb.greaterThanOrEqualTo(car.get("weightKg"),
-                    criteria.getMinWeight()));
+                    criteria.getMinWeightKg()));
         }
 
-        if (criteria.getMaxWeight() != null) {
+        if (criteria.getMaxWeightKg() != null) {
             predicates.add(cb.lessThanOrEqualTo(car.get("weightKg"),
-                    criteria.getMaxWeight()));
+                    criteria.getMaxWeightKg()));
         }
 
-        if (criteria.getMinLength() != null) {
+        if (criteria.getMinLengthCm() != null) {
             predicates.add(cb.greaterThanOrEqualTo(car.get("lengthCm"),
-                    criteria.getMinLength()));
+                    criteria.getMinLengthCm()));
         }
 
-        if (criteria.getMaxLength() != null) {
+        if (criteria.getMaxLengthCm() != null) {
             predicates.add(cb.lessThanOrEqualTo(car.get("lengthCm"),
-                    criteria.getMaxLength()));
+                    criteria.getMaxLengthCm()));
         }
 
-        if (criteria.getMinVelocity() != null) {
+        if (criteria.getMinMaxVelocityKmH() != null) {
             predicates.add(cb.greaterThanOrEqualTo(car.get("maxVelocityKmH"),
-                    criteria.getMinVelocity()));
+                    criteria.getMinMaxVelocityKmH()));
         }
 
-        if (criteria.getMaxVelocity() != null) {
+        if (criteria.getMaxMaxVelocityKmH() != null) {
             predicates.add(cb.lessThanOrEqualTo(car.get("maxVelocityKmH"),
-                    criteria.getMaxVelocity()));
+                    criteria.getMaxMaxVelocityKmH()));
         }
 
         return predicates;
@@ -117,9 +117,9 @@ public class CarSearchService {
 
     @Cacheable(value = "carSearches", key = "'weight-' + #minWeight + '-' + #maxWeight + '-' + #pageable.hashCode()")
     public Page<CarDTO> findByWeightRange(Integer minWeight, Integer maxWeight, Pageable pageable) {
-        SearchCriteria criteria = new SearchCriteria();
-        criteria.setMinWeight(minWeight);
-        criteria.setMaxWeight(maxWeight);
+        CarSearchCriteria criteria = new CarSearchCriteria();
+        criteria.setMinWeightKg(minWeight);
+        criteria.setMaxWeightKg(maxWeight);
         return searchCars(criteria, pageable);
     }
 }

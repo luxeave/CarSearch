@@ -1,9 +1,9 @@
 package com.example.carsearch.controller;
 
 import com.example.carsearch.dto.CarDTO;
+import com.example.carsearch.dto.CarSearchCriteria;
 import com.example.carsearch.service.CarService;
 import com.example.carsearch.service.CarSearchService;
-import com.example.carsearch.criteria.SearchCriteria;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
@@ -57,7 +57,7 @@ public class CarController {
     @ApiResponse(responseCode = "200", description = "Search results retrieved")
     @GetMapping("/search")
     public ResponseEntity<Page<CarDTO>> searchCars(
-            @Valid @ModelAttribute SearchCriteria criteria,
+            @Valid @ModelAttribute CarSearchCriteria criteria,
             @PageableDefault(size = 20, sort = "id") Pageable pageable) {
         Page<CarDTO> results = carSearchService.searchCars(criteria, pageable);
         return ResponseEntity.ok(results);
@@ -68,7 +68,7 @@ public class CarController {
     public ResponseEntity<List<CarDTO>> getCarsByColor(
             @Parameter(description = "Car color", required = true) @PathVariable String color,
             @PageableDefault(size = 20) Pageable pageable) {
-        SearchCriteria criteria = new SearchCriteria();
+        CarSearchCriteria criteria = new CarSearchCriteria();
         criteria.setColor(color);
         Page<CarDTO> results = carSearchService.searchCars(criteria, pageable);
         return ResponseEntity.ok(results.getContent());

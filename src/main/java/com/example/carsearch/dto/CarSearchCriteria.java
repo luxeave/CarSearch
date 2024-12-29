@@ -1,6 +1,6 @@
 package com.example.carsearch.dto;
 
-public class SearchCriteria {
+public class CarSearchCriteria {
     private String model;
     private Integer minLengthCm;
     private Integer maxLengthCm;
