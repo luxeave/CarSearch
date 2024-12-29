@@ -4,7 +4,7 @@ import com.example.carsearch.dto.CarDTO;
 import com.example.carsearch.entity.CarEntity;
 import com.example.carsearch.mapper.CarMapper;
 import com.example.carsearch.repository.CarRepository;
-import jakarta.validation.ValidationException;
+import com.example.carsearch.exception.ValidationException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.cache.annotation.CacheEvict;
