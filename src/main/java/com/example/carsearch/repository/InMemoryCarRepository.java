@@ -6,7 +6,6 @@ import com.example.carsearch.domain.Car;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.atomic.AtomicLong;
 
-
 @Repository
 public class InMemoryCarRepository {
     private final Map<Long, Car> cars = new ConcurrentHashMap<>();
