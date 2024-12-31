@@ -12,11 +12,53 @@ Before starting, you'll need:
 - A Linux-based system with `sudo` privileges
 - Internet connection for downloading packages
 - GNU Make (`sudo apt-get install make` on Debian/Ubuntu)
+- PostgreSQL (see Database Setup section below)
 
 The following dependencies will be automatically installed:
 - Java 23 JDK
 - Maven
-- PostgreSQL
+
+## Database Setup
+
+You'll need to set up PostgreSQL manually:
+
+1. Install PostgreSQL:
+   ```bash
+   sudo apt-get update
+   sudo apt-get install postgresql postgresql-contrib
+   ```
+
+2. Start PostgreSQL service:
+   ```bash
+   sudo service postgresql start
+   ```
+
+3. Create database and user:
+   ```bash
+   sudo -u postgres psql
+   ```
+   Then in the PostgreSQL prompt:
+   ```sql
+   CREATE DATABASE carsearch;
+   CREATE USER carsearch_user WITH PASSWORD 'your_password';
+   GRANT ALL PRIVILEGES ON DATABASE carsearch TO carsearch_user;
+   ```
+
+4. Initialize the database schema:
+   ```sql
+   \c carsearch
+   
+   CREATE TABLE cars (
+       id SERIAL PRIMARY KEY,
+       model VARCHAR(100) NOT NULL,
+       length_cm INTEGER NOT NULL,
+       weight_kg INTEGER NOT NULL,
+       max_velocity_km_h INTEGER NOT NULL,
+       color VARCHAR(50) NOT NULL,
+       created_at TIMESTAMP NOT NULL,
+       updated_at TIMESTAMP NOT NULL
+   );
+   ```
 
 ## Local Development Setup
 
@@ -26,16 +68,13 @@ The following dependencies will be automatically installed:
    cd car-search
    ```
 
-2. Install all dependencies (Java 23, Maven, and PostgreSQL):
+2. Install development dependencies (Java 23 and Maven):
    ```bash
    make install
    ```
    This command will:
    - Download and install Java 23
    - Install Maven
-   - Install PostgreSQL if not already installed
-   - Create the database and user
-   - Setup necessary permissions
 
    Alternatively, you can install components separately:
    ```bash
@@ -82,17 +121,6 @@ Once the application is running, you can access:
    ```
 
 2. The JAR file will be created in the `target` directory
-
-## Database Configuration
-
-The application uses PostgreSQL with the following default configuration:
-- Database Name: car_search
-- Username: postgres
-- Password: postgres
-- Host: localhost
-- Port: 5432
-
-You can modify these settings in the Makefile if needed.
 
 ## Contributing
 
