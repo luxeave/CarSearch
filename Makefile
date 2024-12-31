@@ -1,4 +1,4 @@
-.PHONY: install populate-db build deploy clean
+.PHONY: install install-java install-maven install-postgres populate-db build deploy clean
 
 # PostgreSQL configuration
 DB_NAME = car_search
@@ -26,7 +26,10 @@ install-maven:
 	@echo "Maven installed successfully"
 	@mvn -version
 
-install: install-java install-maven
+install-dev-tools: install-java install-maven
+	@echo "Development tools installation completed"
+
+install-postgres:
 	@echo "Checking if PostgreSQL is installed..."
 	@if ! command -v psql >/dev/null; then \
 		echo "Installing PostgreSQL..."; \
@@ -43,6 +46,11 @@ install: install-java install-maven
 		sudo -u postgres psql -c "CREATE USER $(DB_USER) WITH PASSWORD '$(DB_PASSWORD)'"
 	@echo "Granting privileges..."
 	@sudo -u postgres psql -c "GRANT ALL PRIVILEGES ON DATABASE $(DB_NAME) TO $(DB_USER)"
+	@echo "PostgreSQL setup completed"
+
+# Main install target that installs everything
+install: install-dev-tools install-postgres
+	@echo "All components installed successfully"
 
 populate-db:
 	@echo "Populating database with dummy data..."
@@ -86,7 +94,9 @@ all: install populate-db build deploy
 # Help target
 help:
 	@echo "Available targets:"
-	@echo "  install     - Install and configure PostgreSQL"
+	@echo "  install     - Install and configure all components"
+	@echo "  install-dev-tools - Install Java and Maven"
+	@echo "  install-postgres - Install and configure PostgreSQL"
 	@echo "  populate-db - Populate database with dummy data"
 	@echo "  build      - Build Java application with Maven"
 	@echo "  deploy     - Start the Spring Boot application"
