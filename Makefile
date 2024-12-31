@@ -46,7 +46,7 @@ install: install-java install-maven
 
 populate-db:
 	@echo "Populating database with dummy data..."
-	@psql -h $(DB_HOST) -p $(DB_PORT) -U $(DB_USER) -d $(DB_NAME) -c "\
+	@PGPASSWORD=$(DB_PASSWORD) psql -h $(DB_HOST) -p $(DB_PORT) -U $(DB_USER) -d $(DB_NAME) -c "\
 		CREATE TABLE IF NOT EXISTS cars ( \
 			id SERIAL PRIMARY KEY, \
 			model VARCHAR(100) NOT NULL, \
