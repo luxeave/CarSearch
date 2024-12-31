@@ -4,6 +4,10 @@
 JAVA_VERSION = 23
 
 install-java:
+	@echo "Removing previous JDK installations..."
+	@sudo apt-get remove -y openjdk* || true
+	@sudo apt-get remove -y java-common || true
+	@sudo apt-get autoremove -y
 	@echo "Installing Java 23..."
 	@sudo apt-get update
 	@sudo apt-get install -y wget gpg
@@ -12,6 +16,7 @@ install-java:
 	@sudo update-alternatives --install /usr/bin/java java /usr/lib/jvm/jdk-23.0.1-oracle-x64/bin/java 1
 	@sudo update-alternatives --install /usr/bin/javac javac /usr/lib/jvm/jdk-23.0.1-oracle-x64/bin/javac 1
 	@rm jdk-23_linux-x64_bin.deb
+	@echo 'export JAVA_HOME=/usr/lib/jvm/jdk-23.0.1-oracle-x64' >> ~/.bashrc
 	@echo "Java 23 installed successfully"
 	@java -version
 
