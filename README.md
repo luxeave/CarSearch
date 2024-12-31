@@ -11,6 +11,7 @@ This application provides a robust REST API for managing and searching car listi
 Before starting, you'll need:
 - A Linux-based system with `sudo` privileges
 - Internet connection for downloading packages
+- GNU Make (`sudo apt-get install make` on Debian/Ubuntu)
 
 The following dependencies will be automatically installed:
 - Java 23 JDK
