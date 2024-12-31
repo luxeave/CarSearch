@@ -39,13 +39,13 @@ install-postgres:
 	@echo "Starting PostgreSQL service..."
 	@sudo service postgresql start
 	@echo "Creating database if it doesn't exist..."
-	@sudo -u postgres psql -c "SELECT 1 FROM pg_database WHERE datname = '$(DB_NAME)'" | grep -q 1 || \
-		sudo -u postgres psql -c "CREATE DATABASE $(DB_NAME)"
+	@sudo -u postgres psql -h localhost -t -c "SELECT 1 FROM pg_database WHERE datname = '$(DB_NAME)'" | grep -q 1 || \
+		sudo -u postgres psql -h localhost -t -c "CREATE DATABASE $(DB_NAME)"
 	@echo "Creating user if it doesn't exist..."
-	@sudo -u postgres psql -c "SELECT 1 FROM pg_user WHERE usename = '$(DB_USER)'" | grep -q 1 || \
-		sudo -u postgres psql -c "CREATE USER $(DB_USER) WITH PASSWORD '$(DB_PASSWORD)'"
+	@sudo -u postgres psql -h localhost -t -c "SELECT 1 FROM pg_user WHERE usename = '$(DB_USER)'" | grep -q 1 || \
+		sudo -u postgres psql -h localhost -t -c "CREATE USER $(DB_USER) WITH PASSWORD '$(DB_PASSWORD)'"
 	@echo "Granting privileges..."
-	@sudo -u postgres psql -c "GRANT ALL PRIVILEGES ON DATABASE $(DB_NAME) TO $(DB_USER)"
+	@sudo -u postgres psql -h localhost -t -c "GRANT ALL PRIVILEGES ON DATABASE $(DB_NAME) TO $(DB_USER)"
 	@echo "PostgreSQL setup completed"
 
 # Main install target that installs everything
