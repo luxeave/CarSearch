@@ -7,7 +7,26 @@ DB_PASSWORD = postgres
 DB_HOST = localhost
 DB_PORT = 5432
 
-install:
+install-java:
+	@echo "Installing Java 23..."
+	@sudo apt-get update
+	@sudo apt-get install -y wget gpg
+	@wget https://download.oracle.com/java/23/latest/jdk-23_linux-x64_bin.deb
+	@sudo dpkg -i jdk-23_linux-x64_bin.deb
+	@sudo update-alternatives --install /usr/bin/java java /usr/lib/jvm/jdk-23/bin/java 1
+	@sudo update-alternatives --install /usr/bin/javac javac /usr/lib/jvm/jdk-23/bin/javac 1
+	@rm jdk-23_linux-x64_bin.deb
+	@echo "Java 23 installed successfully"
+	@java -version
+
+install-maven:
+	@echo "Installing Maven..."
+	@sudo apt-get update
+	@sudo apt-get install -y maven
+	@echo "Maven installed successfully"
+	@mvn -version
+
+install: install-java install-maven
 	@echo "Checking if PostgreSQL is installed..."
 	@if ! command -v psql >/dev/null; then \
 		echo "Installing PostgreSQL..."; \

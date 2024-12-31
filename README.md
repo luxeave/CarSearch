@@ -8,8 +8,13 @@ This application provides a robust REST API for managing and searching car listi
 
 ## Prerequisites
 
+Before starting, you'll need:
+- A Linux-based system with `sudo` privileges
+- Internet connection for downloading packages
+
+The following dependencies will be automatically installed:
 - Java 23 JDK
-- Maven 3.8+
+- Maven
 - PostgreSQL
 
 ## Local Development Setup
@@ -20,14 +25,22 @@ This application provides a robust REST API for managing and searching car listi
    cd car-search
    ```
 
-2. Setup PostgreSQL and initialize the database:
+2. Install all dependencies (Java 23, Maven, and PostgreSQL):
    ```bash
    make install
    ```
    This command will:
+   - Download and install Java 23
+   - Install Maven
    - Install PostgreSQL if not already installed
    - Create the database and user
    - Setup necessary permissions
+
+   Alternatively, you can install components separately:
+   ```bash
+   make install-java    # Install only Java 23
+   make install-maven   # Install only Maven
+   ```
 
 3. Populate the database with sample data (optional):
    ```bash
