@@ -44,21 +44,15 @@ You'll need to set up PostgreSQL manually:
    GRANT ALL PRIVILEGES ON DATABASE carsearch TO carsearch_user;
    ```
 
-4. Initialize the database schema:
-   ```sql
-   \c carsearch
-   
-   CREATE TABLE cars (
-       id SERIAL PRIMARY KEY,
-       model VARCHAR(100) NOT NULL,
-       length_cm INTEGER NOT NULL,
-       weight_kg INTEGER NOT NULL,
-       max_velocity_km_h INTEGER NOT NULL,
-       color VARCHAR(50) NOT NULL,
-       created_at TIMESTAMP NOT NULL,
-       updated_at TIMESTAMP NOT NULL
-   );
+4. Run Flyway migrations:
+   ```bash
+   mvn flyway:migrate
    ```
+
+5. Restore table using `backup.sql`:
+   ```bash
+   psql -U <username> -h <host> -p <port> -d <database_name> -f backup.sql
+   ```   
 
 ## Local Development Setup
 
